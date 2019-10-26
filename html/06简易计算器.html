@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简易计算器</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="text" v-model="n1">
+    <select v-model="operation">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" v-model="n2">
+    <input type="button" value="=" @click="calc">
+
+    <input type="text" v-model="result">
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            n1: 0,
+            operation: '+',
+            n2: 0,
+            result: 0
+        },
+        methods: {
+            calc() {
+                // 方式一：
+                // switch (this.operation) {
+                //     case "+":
+                //         this.result = parseInt(this.n1) + parseInt(this.n2);
+                //         break;
+                //     case "-":
+                //         this.result =  parseInt(this.n1) - parseInt(this.n2);
+                //         break;
+                //     case "*":
+                //         this.result =  parseInt(this.n1) * parseInt(this.n2);
+                //         break;
+                //     case "/":
+                //         if (parseInt(this.n2) != 0) {
+                //             this.result =  parseInt(this.n1) / parseInt(this.n2);
+                //         }
+                //         break;
+                // }
+
+                // 方式二
+                var calcString = 'parseInt(this.n1)' + this.operation + 'parseInt(this.n2)';
+                this.result = eval(calcString);
+
+            }
+        }
+    });
+</script>
+</body>
+</html>

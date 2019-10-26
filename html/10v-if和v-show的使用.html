@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vue基本上代码</title>
+    <title>v-if和v-show的使用</title>
     <!- 1. 导入VUE.JS包-->
     <script src="../libs/vue.min.js"></script>
 
@@ -10,7 +10,11 @@
 <body>
 <!-- 将来VUE的实例会控制这个元素中的内容-->
 <div id="app">
-    <p>{{msg}}</p>
+    <input type="button" value="切换" @click="toggle">
+    <!--  v-if 每次会删除或创建元素-->
+    <h3 v-if="flag">这是v-if控制的元素</h3>
+    <!--  v-show 通过样式控制是否显示 display:none-->
+    <h3 v-show="flag">这是v-show控制的元素</h3>
 </div>
 
 <script>
@@ -19,7 +23,13 @@
     var vm = new Vue({
         el: '#app',// 表示要控制页面的哪个区域
         data: { // data属性中存放el中需要的数据
-            msg: '欢迎学习VUE'// 与页面中的msg占位符对应
+           flag:true
+        },
+        methods:{
+            // 切换
+            toggle(){
+                this.flag = !this.flag;
+            }
         }
     });
 </script>

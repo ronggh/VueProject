@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通过属性绑定为元素设置style样式</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!-- VUE方式,对象,如果属性中有-，必须加引号 -->
+    <h1 :style="{color:'red','font-weight':200}"> 这是一个很大的H1,大到你无法想像!!!</h1>
+    <!-- VUE方式,对象,可以放在data节中 -->
+    <h1 :style="styleObj1"> 这是一个很大的H1,大到你无法想像!!!</h1>
+    <!-- VUE方式,数组,可以放在data节中 -->
+    <h1 :style="[styleObj1,styleObj2]"> 这是一个很大的H1,大到你无法想像!!!</h1>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            styleObj1:{color:'red','font-weight':200},
+            styleObj2:{'font-style':'italic'}
+        }
+    });
+</script>
+</body>
+</html>

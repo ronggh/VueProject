@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for指令和key属性</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!-- v-for 循环简单数组 -->
+    <p>============v-for 循环简单数组============</p>
+    <p v-for="item in list1">{{item}}</p>
+
+    <!-- v-for 循环简单数组，带索引值 -->
+    <p>============v-for 循环简单数组，带索引值============</p>
+    <p v-for="(item,index) in list1">索引值：{{index}}-------每一项值:{{item}}</p>
+
+    <!-- v-for 循环对象数组 -->
+    <p>============v-for 循环对象数组============</p>
+    <p v-for="user in list2">用户ID：{{user.id}}-------姓名:{{user.name}}</p>
+
+    <!-- v-for 循环对象数组,带索引值 -->
+    <p>============v-for 循环对象数组,带索引值============</p>
+    <p v-for="(user,index) in list2">用户ID：{{user.id}}-------姓名:{{user.name}}----- 索引值：{{index}}</p>
+
+    <!-- v-for 循环对象 -->
+    <p>============v-for 循环对象============</p>
+    <p v-for="(val,key) in user">key：{{key}}-------值:{{val}}</p>
+
+    <!-- v-for 循环对象,也可以有索引 -->
+    <p>============v-for 循环对象,也可以有索引============</p>
+    <p v-for="(val,key,index) in user">key：{{key}}-------值:{{val}}-----索引：{{index}}</p>
+    <!-- v-for 循环迭代数字 -->
+    <p>============v-for 循环迭代数字,从1开始============</p>
+    <p v-for="index in 10">这是第{{index}}次循环</p>
+
+    <!-- v-for 循环中key的使用,在配合其他组件使用时，如果有问题需要指定key,key只能是数字或字符串 -->
+    <p>============v-for 循环中key的使用============</p>
+    <div>
+        <label>ID</label>
+        <input type="text" v-model="id">
+
+        <label>Name</label>
+        <input type="text" v-model="name">
+        <input type="button" value="添加" @click="add">
+    </div>
+
+    <p v-for="item in list2" :key="item.id">
+        <input type="checkbox">{{item.id}} ---- {{item.name}}
+    </p>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: "#app",// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            list1: [1, 2, 3, 4, 5, 6],
+            list2: [
+                {id: 1, name: "张三"},
+                {id: 2, name: "李四"},
+                {id: 3, name: "王五"},
+                {id: 4, name: "赵六"}
+            ],
+            user: {
+                id: 1,
+                name: "张三",
+                gender: "男"
+            },
+            id: "",
+            name: ""
+        },
+        methods: {
+            // 添加方法
+            add() {
+                this.list2.push({id:this.id,name:this.name});
+
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

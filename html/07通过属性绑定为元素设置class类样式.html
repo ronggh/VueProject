@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通过属性绑定为元素设置class类样式</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <style>
+        .red {
+            color: red;
+        }
+
+        .thin {
+            font-weight: 200;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .active {
+            letter-spacing: 0.5em;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!-- 传统方式 -->
+    <h1 class="red thin"> 这是一个很大的H1,大到你无法想像</h1>
+    <br/>
+    <!-- VUE方式,数组 -->
+    <h1 :class="['red','italic']"> 这是一个很大的H1,大到你无法想像!!!</h1>
+
+    <!-- VUE方式,可以使用表达式1：三元表达式 -->
+    <h1 :class="['red','italic',flag?'active':'']"> 这是一个很大的H1,大到你无法想像!!!</h1>
+
+    <!-- VUE方式,可以使用表达式2 :对象-->
+    <h1 :class="['red','italic',{'active':flag}]"> 这是一个很大的H1,大到你无法想像!!!</h1>
+
+    <!-- VUE方式,直接使用对象-->
+    <h1 :class="{red:true,italic:true,active:false}"> 这是一个很大的H1,大到你无法想像!!!</h1>
+
+    <!-- VUE方式,直接使用对象-->
+    <h1 :class="classObj"> 这是一个很大的H1,大到你无法想像!!!</h1>
+
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            flag:true,
+            classObj:{red:true,italic:true,active:false}
+        }
+    });
+</script>
+</body>
+</html>

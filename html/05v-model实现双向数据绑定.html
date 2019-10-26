@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vue基本上代码</title>
+    <title> v-model实现双向数据绑定</title>
     <!- 1. 导入VUE.JS包-->
     <script src="../libs/vue.min.js"></script>
-
 </head>
 <body>
 <!-- 将来VUE的实例会控制这个元素中的内容-->
 <div id="app">
-    <p>{{msg}}</p>
+    <h4>{{msg}}</h4>
+    <!--  v-bind只能实现数据单向绑定-->
+    <input type="text" v-bind:value="msg" style="width:100%">
+
+    <!--  v-model能实现数据双向绑定,只能用于表单元素，input,textarea,checkbox,radio,select等-->
+    <input type="text" v-model="msg" style="width:100%">
 </div>
 
 <script>
@@ -19,7 +23,7 @@
     var vm = new Vue({
         el: '#app',// 表示要控制页面的哪个区域
         data: { // data属性中存放el中需要的数据
-            msg: '欢迎学习VUE'// 与页面中的msg占位符对应
+            msg: '欢迎学习VUE~~',// 与页面中的msg占位符对应
         }
     });
 </script>

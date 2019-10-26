@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <style>
+        .inner {
+            height: 150px;
+            background-color: lightcyan;
+        }
+        .inner2 {
+            height: 150px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!--  默认是事件冒泡，先触发按钮事件，再触发div事件 -->
+    <div class="inner" @click="div1Click">
+        <input type="button" value="按钮1" @click="btnClick">
+        <!-- 使用stop属性，阻止事件冒泡 -->
+        <input type="button" value="按钮2" @click.stop="btnClick">
+
+    </div>
+
+    <!-- 使用 prevent阻止默认行为，不会进行跳转 -->
+    <a href="http://www.baidu.com"  @click.prevent="toBaidu">有问题，百度一下</a>
+
+    <!--  默认是事件冒泡，使用capture属性，改变事件触发顺序：先触发div事件，再触发按钮事件 -->
+    <div class="inner" @click.capture="div1Click">
+        <input type="button" value="按钮3" @click="btnClick">
+        <!-- 使用stop属性，阻止事件冒泡,此时的stop属性无效了 -->
+        <input type="button" value="按钮4" @click.stop="btnClick">
+
+    </div>
+
+    <!--  使用self属性，只有点击div,才会触发div事件，不使用冒泡和事件捕获机制 -->
+    <div class="inner2" @click.self="div1Click">
+        <input type="button" value="按钮5" @click="btnClick">
+        <!-- 使用stop属性，阻止事件冒泡,此时的stop属性无效了 -->
+        <input type="button" value="按钮6" @click.stop="btnClick">
+
+    </div>
+
+    <!-- 使用 prevent阻止默认行为，不会进行跳转 -->
+    <!-- 使用 once只会执行一次，事件属性可以串联 -->
+    <a href="http://www.baidu.com"  @click.prevent.once="toBaidu">有问题，百度一下</a>
+
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            msg: '欢迎学习VUE',// 与页面中的msg占位符对应
+        },
+        methods: {
+            // es6写法
+            div1Click() {
+                console.log("触发了div的点击事件")
+            },
+            btnClick() {
+                console.log("触发了按钮的点击事件")
+            },
+            toBaidu(){
+                console.log("触发了点击事件")
+            }
+
+        }
+    });
+</script>
+
+</body>
+</html>
