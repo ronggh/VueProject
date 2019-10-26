@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-cloak</title>
+    <!-- v-cloak 隐藏所有v-cloak标签 -->
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!-- 加了v-cloak，在慢速网络中不会显示出{{msg}},解决闪烁问题 -->
+    <p v-cloak>+++++++++++++ {{msg}} -----------------</p>
+    <!-- v-text，默认没有闪烁问题，但v-text会覆盖内容，=========不会被显示出来 -->
+    <h4 v-text="msg"> ==================== </h4>
+    <!-- 这2种方式不会渲染出h1标签-->
+    <div>{{msg2}}</div>
+    <div v-text="msg2"></div>
+    <!-- 这种才可以 -->
+    <div v-html="msg2"></div>
+
+    <!--  v-bind绑定属性-->
+    <input type="button" value="按钮1" title="mytitle">
+    <input type="button" value="按钮2" v-bind:title="mytitle">
+    <input type="button" value="按钮3" v-bind:title="mytitle + '123'">
+
+    <!-- v-bind可以省略，只保留: -->
+    <input type="button" value="按钮4" :title="mytitle">
+
+    <!-- v-on 来绑定事件 -->
+    <input type="button" value="按钮5" :title="mytitle" v-on:click="show">
+    <!-- v-on 可使用@代替-->
+    <input type="button" value="按钮6" :title="mytitle" @click="show">
+</div>
+
+<!- 1. 导入VUE.JS包-->
+<script src="../libs/vue.min.js"></script>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域
+        data: { // data属性中存放el中需要的数据
+            msg: '欢迎学习VUE，123',// 与页面中的msg占位符对应
+            msg2: '<h1>我是大大的h1标签</h1>',
+            mytitle: '这是一个自定义的title'
+        },
+        methods:{ // methods用来处理绑定的事件
+            show:function () {
+                alert('hello');
+            }
+
+        }
+    });
+</script>
+
+</body>
+</html>
