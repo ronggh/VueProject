@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期函数</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <p>{{msg}}</p>
+    <input type="button" value="修改" @click="changeMsg()"/>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            msg: '欢迎学习VUE'// 与页面中的msg占位符对应
+        },
+        methods:{
+            show(){
+                console.log("执行了show()方法~~~~");
+            },
+            changeMsg(){
+                this.msg = "OK";
+            }
+        },
+        // 生命周期函数---创建阶段:beforeCreate
+        // 实例被完全创建之前会被执行，此时，data和methods中的数据和方法还没有创建出来。
+        // 因此，不能在beforeCreate中访问this.msg,this.show()这些内容
+        beforeCreate(){
+            // 不能访问，这样写是错误的
+            //  console.log((this.msg);
+            // this.show();
+
+        },
+        // 生命周期函数---创建阶段:created
+        // 此时，data和methods中的数据和方法都已经创建出来。
+        // 可以调用了
+        created(){
+            console.log(this.msg);
+            this.show();
+        },
+        // 生命周期函数---创建阶段:beforeMount
+        // 模板已经在内存中编辑完成，尚未渲染到页面中
+        beforeMount(){
+
+        },
+        // 生命周期函数---创建阶段:mounted
+        // 模板数据已经渲染到页面中
+        mounted(){
+
+        },
+        // 命周期函数---运行阶段:beforeUpdate
+        // data部分的数据改变时触发，界面还没有被更新
+        beforeUpdate(){
+
+        },
+        // 命周期函数---运行阶段:updated
+        // 界面重新渲染过，已经跟data部分的数据一致了
+        updated(){
+
+        },
+        // 命周期函数---销毁阶段:beforeDestroy
+        // data,methods等部分数据和方法依然是可用状态，尚未真正执行销毁过程
+        beforeDestroy(){
+
+        },
+        // 命周期函数---销毁阶段:destroyed
+        // 已被销毁，data,methods等部分数据和方法就不可用了
+        destroyed(){
+
+        }
+    });
+</script>
+
+</body>
+</html>

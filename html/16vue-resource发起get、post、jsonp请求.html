@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-resource发起get、post、jsonp请求</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+    <!-- 导入vue-resource.js包 -->
+    <script src="../libs/vue-resource-1.5.1.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="button" value="Get请求" @click="getInfo()">
+    <input type="button" value="Post请求" @click="postInfo()">
+    <input type="button" value="Jsonp请求" @click="jsonpInfo()">
+    <br/>
+    <textarea >{{content}}</textarea>
+
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            content:"",
+        },
+        methods:{
+            // 使用vue-resource进行get请求
+           getInfo(){
+                var url = "http://vue.studyit.io/api/getlunbo";
+                this.$http.get(url).then(
+                    // 第一个是成功的回调
+                    response =>{
+                        console.log(response.data);
+                        this.content = response.data;
+
+                    },
+                    // 第二个是失败的回调
+                    response=>{
+                        this.content = response.toString();
+                    });
+            },
+            // 使用vue-resource进行post请求
+            postInfo(){
+                var url="http://vue.studyit.io/api/post";
+                // emulateJSON:true,采用application/x-www-form-urlencoded发送请求
+                this.$http.post(url,{},{emulateJSON:true}).then(
+                    success=>{
+                    console.log(success.body)
+                },error=>{
+                        console.log(error)
+                });
+            },
+            // 使用vue-resource进行jsonp请求
+            jsonpInfo(){
+               var url ="http://vue.studyit.io/api/jsonp";
+               this.$http.jsonp(url).then(result=>{
+                   console.log("请求成功");
+                   console.log(result.body);
+               },result=>{
+                   console.log("请求失败");
+                   console.log(result.body);
+               });
+            }
+        }
+    });
+</script>
+</body>
+</html>

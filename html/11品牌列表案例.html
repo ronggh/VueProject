@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>品牌列表案例</title>
+
+    <!--  bootstrap.css-->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!-- 添加和查询窗格-->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label>
+                ID:<input type="text" class="form-control" v-model="id">
+            </label>
+            <label>
+                <!-- 添加键盘事件，通过回车也可以实现添加:@keyup.enter="add()"
+                 也可以使用键值，如enter的键值是13，@keyup.13="add()"
+                 一般为增加可读性，会定义一个通俗的名称，如f2 = 113,在此处引用@keyup.f2="add()"
+                 而在Vue中通过Vue.config.keyCodes.f2 = 113;.
+                 -->
+                Name:<input type="text" class="form-control" v-model="name" @keyup.enter="add()">
+            </label>
+            <input type="button" value="添加" class="btn btn-primary" @click="add">
+
+            <label>
+                搜索关键字:<input type="text" class="form-control" v-model="keywords" v-focus>
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- 表格 -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Ctime</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in search(keywords)" :key="item.id">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.ctime | dateFormat("yyyy-MM-dd hh:mm:ss")}}</td>
+            <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+
+    // 自定义指令，实现获得输入焦点效果 自定义指令约定以 v-开头，
+    // 但在定义的时候，第一个参数就是自定义指令名称，但v-不需要写，直接写后面的名字即可，使用时写全名：v-名称
+    // 第二个参数是一个对象，这个对象上有一些指令相关的钩子函数
+    Vue.directive("focus",{
+        inserted:function (el) {
+            el.focus();
+        }
+    });
+
+    // 定义一个全局键盘码别名，对应 f2 = 113
+    Vue.config.keyCodes.f2 = 113;
+
+    // 创建一个全局的日期过滤器，对日期进行格式化,格式化字符默认为空
+    Vue.filter("dateFormat", function (dateString, pattern="") {
+        var dt = new Date(dateString);
+        var year = dt.getFullYear();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+
+
+        // 非空再进行判断
+        if (pattern && pattern.toLowerCase() === "yyyy-mm-dd") {
+            // return year + "-" + month + "-" + day;
+            // 用占位符实现,注意是``符号，不是单引号
+            return `${year}-${month}-${day}`;
+        }
+        else {
+            var hh = dt.getHours();
+            var mm = dt.getMinutes();
+            var ss = dt.getSeconds();
+            return `${year}-${month}-${day} ${hh}:${mm}:${ss}`;
+        }
+    });
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            id: "",
+            name: "",
+            keywords: "",
+            list: [
+                {id: 1, name: "奔驰", ctime: new Date()},
+                {id: 2, name: "宝马", ctime: new Date()},
+                {id: 3, name: "奥迪", ctime: new Date()}
+            ]
+
+        },
+        methods: {
+            add() {
+                // 判断是否为空
+
+                // 添加
+                var car = {id: this.id, name: this.name, ctime: new Date()};
+                this.list.push(car);
+                // 清空输入框
+                this.id = "";
+                this.name = "";
+            },
+            del(id) {
+                // 根据id找到索引,然后进行删除
+                // 方式1：
+                // this.list.some((item,index)=>{
+                //     if(item.id === id){
+                //         this.list.splice(index,1);
+                //         return true;
+                //     }
+                // })
+                // 方式2：
+                var index = this.list.findIndex(item => {
+                    if (item.id === id) {
+                        return true;
+                    }
+                });
+                this.list.splice(index, 1);
+            },
+            search(keyword) {
+
+                // 方式1
+                // var newList =[];
+                // this.list.forEach(item=>{
+                //     if(item.name.indexOf(keyword)!=-1){
+                //         newList.push(item);
+                //     }
+                // });
+                // return newList;
+                // 方式2：
+                return this.list.filter(item => {
+                    // ES6中字符串的新方法
+                    if (item.name.includes(keyword)) {
+                        return item;
+                    }
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

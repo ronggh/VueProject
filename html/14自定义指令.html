@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <label>自定义v-focus指令获取输入焦点</label><br/>
+    <!--自定义v-focus指令获取输入焦点-->
+    <input type="text" v-focus/><br/><br/>
+
+
+    <label>自定义v-color指令改变字体颜色</label><br/>
+    <!--自定义v-color指令改变字体颜色，传递参数，
+    注意：这个参数必须加在引号里, 否则会到vm的data变量处理了 -->
+    <input type="text" v-color="'blue'"/><br/>
+
+    <label v-fontweight="'200'">私有自定义v-fontweight指令改变字体粗细</label><br/>
+
+    <label v-fontsize="'30px'">私有自定义v-fontsize指令改变字体大小-采用简写方式</label>
+
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 自定义指令，实现获得输入焦点效果 自定义指令约定以 v-开头，
+    // 但在定义的时候，第一个参数就是自定义指令名称，但v-不需要写，直接写后面的名字即可，使用时写全名：v-名称
+    // 第二个参数是一个对象，这个对象上有一些指令相关的钩子函数
+    // 常用的钩子函数有：bind(),unbind(),inserted(),update(),componentUpdated()
+    // 钩子函数第一个参数el代表原生的HTML DOM对象
+    Vue.directive("focus", {
+        // 只调用一次，指令第一次绑定到元素时调用，用这个函数可以定义一个在绑定时执行一次的初始化动作。
+        bind: function (el) {
+
+        },
+        // 元素被加入到父节点时调用,父节点存在即可调整用。
+        // 元素只有加入到DOM中才能获取焦点
+        inserted: function (el) {
+            el.focus();
+        },
+        // 所在组件的VNode更新时调用，但是可能发生在其孩子的VNode更新之前
+        update: function (el) {
+
+        },
+        //所在组件的VNode及其孩子的VNode全部更新时调用。
+        componentUpdated: function (el) {
+
+        },
+        // 只调用一次，指令与元素解绑时调用
+        unbind: function (el) {
+
+        }
+    });
+
+    // 自定义设置字体颜色的指令
+    Vue.directive("color", {
+        // 样式只要绑定即可，不论是否加入到DOM中
+        bind: function (el, binding) {
+            el.style.color = binding.value;
+        }
+    });
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+
+        },
+        // 这里可以自定义私有的指令
+        directives: {
+            "fontweight": {
+                bind: function (el, binding) {
+                    el.style.fontWeight = binding.value;
+                }
+            },
+            // 自定义指令的简写：想在 bind 和 update 时触发相同行为，而不关心其它的钩子函数，可以使用简写。
+            "fontsize": function (el, binding) {
+                el.style.fontSize = parseInt(binding.value) + "px";
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

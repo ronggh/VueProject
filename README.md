@@ -18,3 +18,19 @@
 # 08 通过属性绑定为元素设置style样式
 # 09 v-for指令和key属性
 # 10 v-if和v-show的使用
+# 11 品牌列表案例
+# 12 过滤器
+# 13 键盘事件修饰符
+##  .enter
+##  .tab
+##  .delete（删除和退格键）
+##  .esc
+##  .space
+##  .up
+##  .down
+##  .left
+##  .right
+# 14 自定义指令
+# 15 生命周期函数
+# 16 vue-resource发起get、post、jsonp请求
+

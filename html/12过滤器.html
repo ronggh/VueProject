@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <p>使用过滤器</p>
+    <p>{{msg}}</p>
+    <!-- 使用过滤器，通过管道符|，调用一个函数实现 ，可有多个过滤器，用|进行连接
+    {{msg | msgFormat("疯狂") | test("123")}}
+    -->
+    <p>{{msg | msgFormat("疯狂")}}</p>
+
+    <p>当前时间：{{new Date() | dateFormat}}</p>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+
+    // 定义全局过滤器,名字叫msgFormat,过滤器的第一个参数是固定的即管道符|前面的内容
+    Vue.filter("msgFormat",function (msg,arg) {
+        // replace()方法中第一个参数可以使用正则
+        return msg.replace(/单纯/g,arg);
+    });
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: "#app",// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            msg: "曾经,我也是一个单纯的少年，单纯的我,傻傻的问，谁是这个世界上最单纯的男人"
+        },
+        // 定义私有的过滤器，过滤器有两个要素：过滤器名称和处理函数
+        // 如果私有过滤器与全局过滤器同名，则优先调用私有过滤器
+        filters:{
+            dateFormat:function (dateString,pattern="") {
+                var dt = new Date(dateString);
+                var year = dt.getFullYear();
+                // 长度不足两位时，补0，用string.padStart()方法,第一个参数表示补足后最大几位
+                // ES6中的新方法 padStart(),padEnd()
+                var month = (dt.getMonth() + 1).toString().padStart(2,"0");
+                var day = dt.getDate().toString().padStart(2,"0");
+
+
+                // 非空再进行判断
+                if (pattern && pattern.toLowerCase() === "yyyy-mm-dd") {
+                    // return year + "-" + month + "-" + day;
+                    // 用占位符实现,注意是``符号，不是单引号
+                    return `${year}-${month}-${day}`;
+                }
+                else {
+                    var hh = dt.getHours().toString().padStart(2,"0");
+                    var mm = dt.getMinutes().toString().padStart(2,"0");
+                    var ss = dt.getSeconds().toString().padStart(2,"0");
+                    return `${year}-${month}-${day} ${hh}:${mm}:${ss}`;
+                }
+            }
+
+
+        }
+    });
+</script>
+</body>
+</html>
