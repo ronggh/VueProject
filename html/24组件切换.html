@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件切换</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <style>
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .v-enter-acvtive,
+        .v-leave-active {
+           transition: all 0.5s ease;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!--组件切换方式一:v-if,v-else -->
+    <label>组件切换方式一:v-if,v-else</label><br/>
+    <a href="" @click.prevent="flag=true">登陆</a>
+    <a href="" @click.prevent="flag=false">注册</a>
+    <login v-if="flag"></login>
+    <register v-else="flag"></register>
+    <hr/>
+
+    <label>组件切换方式二: component</label><br/>
+    <!--组件切换方式二: component 标签
+     component 占位符
+     :is属性,要展示的组件名称
+     -->
+    <a href="" @click.prevent="comName='login'">登陆</a>
+    <a href="" @click.prevent="comName='register'">注册</a>
+    <!--实现动画切换
+     用transition 包裹 component
+    mode 设置为先出去,再进来 -->
+    <transition mode="out-in">
+        <component :is="comName"></component>
+    </transition>
+</div>
+
+<!--登陆组件-->
+<template id="login">
+    <div>
+        <h2>登陆组件</h2>
+
+    </div>
+</template>
+
+<!--注册组件 -->
+<template id="register">
+    <div>
+        <h2>注册组件</h2>
+    </div>
+</template>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            flag: true,
+            comName: "login" // 要绑定的组件名称
+        },
+        methods: {},
+        // 组件
+        components: {
+            login: {
+                template: "#login"
+            },
+            register: {
+                template: "#register"
+            }
+        }
+    });
+</script>
+</body>
+</html>

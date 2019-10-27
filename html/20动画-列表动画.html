@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画-列表动画</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <!-- 样式-->
+    <style>
+        /*动画效果,进入时*/
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 2s ease;
+        }
+
+        /*删除离开时的动画效果,固定写法*/
+        .v-move {
+            transition: all 2s ease;
+        }
+        .v-leave-active {
+            position: absolute;
+        }
+
+
+        /*列表的样式*/
+        li {
+            border: 1px dashed #999;
+            margin: 5px;
+            line-height: 35px;
+            padding-left: 5px;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        li:hover {
+            background-color: hotpink;
+        }
+    </style>
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!--添加-->
+    <div>
+        <label>
+            Id:
+            <input type="text" v-model="id"/>
+        </label>
+        <label>
+            Name:
+            <input type="text" v-model="name" @keyup.enter="add()"/>
+        </label>
+        <input type="button" value="添加" @click="add()"/>
+    </div>
+    <!--列表-->
+    <!--<ul>-->
+        <!--通过v-for渲染出来的列表要用动画效果需要使用 transition-group ,
+        必须要设置:key
+        加个appear 列表有渐入效果
+        tag指定transition-group 渲染成哪个标签,不指定时为span-->
+        <transition-group appear tag="ul">
+            <li v-for="(item,index) in list" :key="item.id" @click="del(index)">{{item.id}}----{{item.name}}</li>
+        </transition-group>
+    <!--</ul>-->
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            id: "",
+            name: "",
+            list: [
+                {id: 1, name: "张三"},
+                {id: 2, name: "李四"},
+                {id: 3, name: "王五"},
+                {id: 4, name: "赵六"},
+            ]
+        },
+        methods: {
+            add() {
+                this.list.push({id: this.id, name: this.name});
+                this.id = "";
+                this.name = "";
+            },
+            del(index){
+                this.list.splice(index,1);
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

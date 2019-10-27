@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画-使用钩子函数实现半场动画</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <style>
+        /*小球*/
+        .ball {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="button" value="快到碗里来" @click="flag=!flag"/><br/>
+    <transition
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:after-enter="afterEnter">
+        <!--小球-->
+        <div class="ball" v-show="flag"></div>
+    </transition>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            flag: false
+        },
+        methods: {
+            // 动画钩子函数的第一个参数表示,动画要执行的元素
+            beforeEnter(el) {
+                // 设置小球动画开始的起始位置
+                el.style.transform = "translate(0,0)";
+            },
+            enter(el,done) {
+                // 这句话没有什么实际效果,如果不写,也不来动画效果
+                el.offsetWidth;
+                //设置小球动画结束后的位置
+                el.style.transform = "translate(150px,450px)";
+                el.style.transition = "all 3s ease";
+                // 这里的done() 其实就是afterEnter(el)函数的一个引用
+                done();
+            },
+            afterEnter(el) {
+                // 隐藏小球
+                this.flag = !this.flag;
+            }
+        }
+    });
+</script>
+</body>
+</html>

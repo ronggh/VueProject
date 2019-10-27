@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画-使用第三方animate.css实现</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+    <!-- 导入第三方的动画样式库 -->
+    <link rel="stylesheet" href="../css/animate.css">
+    <!-- 入场使用:bounceIn , 离场使用: bounceOut -->
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag"/>
+    <label>实现动画效果-使用第三方的animate.css实现</label>
+    <!-- 把需要实现动画效果的元素包裹在 transition标签中，这个标签是Vue中提供的
+    :duration="800" 指定入场和离场都是800毫秒
+    :duration="{enter:500,leave:800}"---- 分别指定
+    -->
+    <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" :duration="{enter:500,leave:800}">
+        <h3 v-if="flag">这是一个H3</h3>
+    </transition>
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+           flag:false
+        }
+    });
+</script>
+</body>
+</html>

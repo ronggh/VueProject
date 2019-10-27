@@ -27,14 +27,14 @@
 
     <!--  v-bind绑定属性-->
     <input type="button" value="按钮1" title="mytitle">
-    <input type="button" value="按钮2" v-bind:title="mytitle">
-    <input type="button" value="按钮3" v-bind:title="mytitle + '123'">
+    <input type="button" value="按钮2" :title="mytitle">
+    <input type="button" value="按钮3" :title="mytitle + '123'">
 
     <!-- v-bind可以省略，只保留: -->
     <input type="button" value="按钮4" :title="mytitle">
 
     <!-- v-on 来绑定事件 -->
-    <input type="button" value="按钮5" :title="mytitle" v-on:click="show">
+    <input type="button" value="按钮5" :title="mytitle" @click="show">
     <!-- v-on 可使用@代替-->
     <input type="button" value="按钮6" :title="mytitle" @click="show">
 </div>

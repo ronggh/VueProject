@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+    <!-- 定义两组样式，来控制transition标签中的动画效果 -->
+    <style>
+        /*默认的动画效果类，以v-作为前缀*/
+        /* 进入之前和离开之后的样式，共用*/
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(180px);
+        }
+
+        /* 进入之后和离开之前的样式，共用*/
+        .v-enter-to,
+        .v-leave {
+            opacity: 1;
+        }
+
+        /* 进入和离开的时间段 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.8s ease;
+        }
+
+        /* 自定义的动画效果类，前缀由transition标签中的name属性指下 */
+        /* 进入之前和离开之后的样式，共用*/
+        .my-enter,
+        .my-leave-to {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        /* 进入之后和离开之前的样式，共用*/
+        .my-enter-to,
+        .my-leave {
+            opacity: 1;
+        }
+
+        /* 进入和离开的时间段 */
+        .my-enter-active,
+        .my-leave-active {
+            transition: all 0.8s ease;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="button" value="toggle" @click="flag1=!flag1"/>
+    <label>实现动画效果-使用默认v-enter,v-leave-to等</label>
+    <!-- 把需要实现动画效果的元素包裹在 transition标签中，这个标签是Vue中提供的 -->
+    <transition>
+        <h3 v-if="flag1">这是一个H3</h3>
+    </transition>
+    <hr/>
+    <input type="button" value="toggle" @click="flag2=!flag2"/>
+    <label>实现动画效果-使用自定义过渡类</label>
+    <!-- 把需要实现动画效果的元素包裹在 transition标签中，这个标签是Vue中提供的
+     使用自定义过渡类名,在transition标签中定义一个name,这个只是作为前缀 -->
+    <transition name="my">
+        <h5 v-if="flag2">这是一个H5</h5>
+    </transition>
+
+
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            flag1: false,
+            flag2:false
+        }
+    });
+</script>
+</body>
+</html>

@@ -16,56 +16,63 @@
     <input type="button" value="Post请求" @click="postInfo()">
     <input type="button" value="Jsonp请求" @click="jsonpInfo()">
     <br/>
-    <textarea >{{content}}</textarea>
+    <textarea>{{content}}</textarea>
 
 </div>
 
 <script>
-    // 2. 创建一个VUE的实例
+    // 定义请求的根路径
+    Vue.http.options.root = "http://vue.studyit.io/";
+    // 定义Post请求的方式为JSON
+    Vue.http.options.emulateJSON = true;
 
+    // Vue.http.headers.common["Access-Control-Allow-Origin"] = "true";
+
+    // 2. 创建一个VUE的实例
     // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
     var vm = new Vue({
         el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
         data: { // data属性中存放el中需要的数据
-            content:"",
+            content: "",
         },
-        methods:{
+        methods: {
             // 使用vue-resource进行get请求
-           getInfo(){
-                var url = "http://vue.studyit.io/api/getlunbo";
+            getInfo() {
+                // 根据路径已经定义，这里只需要相对路径，不要以/开头写
+                var url = "api/getlunbo";
                 this.$http.get(url).then(
                     // 第一个是成功的回调
-                    response =>{
+                    response => {
                         console.log(response.data);
                         this.content = response.data;
 
                     },
                     // 第二个是失败的回调
-                    response=>{
+                    response => {
                         this.content = response.toString();
                     });
             },
             // 使用vue-resource进行post请求
-            postInfo(){
-                var url="http://vue.studyit.io/api/post";
+            postInfo() {
+                var url = "api/post";
                 // emulateJSON:true,采用application/x-www-form-urlencoded发送请求
-                this.$http.post(url,{},{emulateJSON:true}).then(
-                    success=>{
-                    console.log(success.body)
-                },error=>{
+                this.$http.post(url, {}, {emulateJSON: true}).then(
+                    success => {
+                        console.log(success.body)
+                    }, error => {
                         console.log(error)
-                });
+                    });
             },
             // 使用vue-resource进行jsonp请求
-            jsonpInfo(){
-               var url ="http://vue.studyit.io/api/jsonp";
-               this.$http.jsonp(url).then(result=>{
-                   console.log("请求成功");
-                   console.log(result.body);
-               },result=>{
-                   console.log("请求失败");
-                   console.log(result.body);
-               });
+            jsonpInfo() {
+                var url = "api/jsonp";
+                this.$http.jsonp(url).then(result => {
+                    console.log("请求成功");
+                    console.log(result.body);
+                }, result => {
+                    console.log("请求失败");
+                    console.log(result.body);
+                });
             }
         }
     });

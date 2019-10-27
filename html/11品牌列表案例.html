@@ -70,8 +70,8 @@
     // 自定义指令，实现获得输入焦点效果 自定义指令约定以 v-开头，
     // 但在定义的时候，第一个参数就是自定义指令名称，但v-不需要写，直接写后面的名字即可，使用时写全名：v-名称
     // 第二个参数是一个对象，这个对象上有一些指令相关的钩子函数
-    Vue.directive("focus",{
-        inserted:function (el) {
+    Vue.directive("focus", {
+        inserted: function (el) {
             el.focus();
         }
     });
@@ -80,7 +80,7 @@
     Vue.config.keyCodes.f2 = 113;
 
     // 创建一个全局的日期过滤器，对日期进行格式化,格式化字符默认为空
-    Vue.filter("dateFormat", function (dateString, pattern="") {
+    Vue.filter("dateFormat", function (dateString, pattern = "") {
         var dt = new Date(dateString);
         var year = dt.getFullYear();
         var month = dt.getMonth() + 1;

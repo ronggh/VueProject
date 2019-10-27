@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的data和methods</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <mycom1></mycom1>
+    <mycount></mycount><hr/>
+    <mycount></mycount><hr/>
+    <mycount></mycount><hr/>
+</div>
+
+<template id="temp1">
+    <div>
+        <h2>这是在外部通过template标签定义的组件</h2>
+        <h4>这种方式好用,不错</h4>
+        <!--引用组件中定义的数据-->
+        {{msg}}
+    </div>
+</template>
+
+<!--这个组件实现点击按钮计数器加1-->
+<template id="temp2">
+    <div>
+        <input type="button" value="+1" @click="increment"/>
+        {{count}}
+    </div>
+</template>
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+            msg: '欢迎学习VUE'// 与页面中的msg占位符对应
+        },
+        // 定义私有组件
+        components:{
+            // 组件名
+            mycom1:{
+                template:"#temp1",
+                // 组件中的data是一个函数,必须返回一个对象
+                data:function () {
+                    return {
+                        msg:"这是组件中定义的数据"
+                    };
+                }
+            },
+            mycount:{
+                template:"#temp2",
+                data:function () {
+                    var obj ={count:0};
+                    return obj;
+                },
+                methods:{
+                    increment(){
+                        this.count++;
+                    }
+                }
+
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
