@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ref获取DOM元素和组件</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue.min.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!--通过ref来获取DOM元素-->
+    <h3 ref="myh3">今天天气不错！！！</h3>
+    <input type="button" value="获取DOM元素的引用" @click="getElement">
+    <hr>
+    <!--通过ref来获取组件-->
+    <login ref="mylogin"></login>
+    <input type="button" value="获取组件的引用" @click="getComponent" >
+</div>
+
+
+
+<script>
+    // 登陆组件
+    var login = {
+        template: '<h1>登录组件</h1>',
+        data() {
+            return {
+                msg: 'son msg'
+            }
+        },
+        methods: {
+            show() {
+                console.log('调用了子组件的方法')
+            }
+        }
+    }
+
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: { // data属性中存放el中需要的数据
+
+        },
+        methods:{
+            // 获取DOM元素的引用
+            getElement(){
+                alert(this.$refs.myh3.innerText)
+            },
+            // 获取组件的引用
+            getComponent(){
+                // console.log(this.$refs.mylogin.msg)
+                alert(this.$refs.mylogin.msg)
+                this.$refs.mylogin.show()
+            }
+
+        },
+        components:{
+            "login":login
+        }
+    });
+</script>
+
+</body>
+</html>

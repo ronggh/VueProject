@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由-嵌套</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+    <!--2. 导入路由vue-router.js包-->
+    <script src="../libs/vue-router.js"></script>
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <router-link to="/account">Account</router-link>
+
+    <router-view></router-view>
+</div>
+
+<template id="tmpl">
+    <div>
+        <h1>这是 Account 组件</h1>
+
+        <router-link to="/account/login">登录</router-link>
+        <router-link to="/account/register">注册</router-link>
+
+        <router-view></router-view>
+    </div>
+</template>
+
+<script>
+    // 组件的模板对象
+    // 父路由中的组件
+    var account = {
+        template: '#tmpl'
+    }
+
+    // 子路由中的两个组件
+    var login = {
+        template: '<h3>登录</h3>'
+    }
+
+    var register = {
+        template: '<h3>注册</h3>'
+    }
+
+    var router = new VueRouter({
+        routes: [
+            // 使用 redirect 实现路由重定向
+            { path: '/', redirect: '/account/login' },
+            // 含有子路由
+            {
+                path: '/account',
+                component: account,
+                // 使用 children 属性，实现子路由，同时，子路由的 path 前面，不要带 / ，
+                // 否则永远以根路径开始请求，这样不方便我们用户去理解URL地址
+                children: [
+                    { path: 'login', component: login },
+                    { path: 'register', component: register }
+                ]
+            }
+
+        ]
+    })
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',
+        data: {
+        },
+        router:router
+    });
+</script>
+
+</body>
+</html>

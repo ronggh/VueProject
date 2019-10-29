@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由-传参</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+    <!--2. 导入路由vue-router.js包-->
+    <script src="../libs/vue-router.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+
+    <!-- 可以使用router-link 来代替上述的写法，默认渲染为一个a 标签，不需要加#，并且可以通过tag指定渲染为span等 -->
+    <router-link to="/login/12/zhangsan">登录</router-link>
+    <router-link to="/register">注册</router-link>
+
+    <!-- 这是 vue-router 提供的元素，专门用来 当作占位符的，将来，路由规则，匹配到的组件，就会展示到这个 router-view 中去 -->
+    <!-- 所以： 我们可以把 router-view 认为是一个占位符 -->
+    <router-view></router-view>
+
+</div>
+
+<script>
+    // 定义两个组件的模板对象
+    // 登陆组件
+    var login = {
+        // 组件中可以通过this.$router.params.参数名，获取对应的值
+        template: '<h1>登录组件---{{ $route.params.id }} --- {{ $route.params.name }}</h1>',
+    }
+    // 注册组件
+    var register = {
+        template: '<h1>注册组件</h1>'
+    }
+
+    // 创建一个路由对象， 当 导入 vue-router 包之后，在 window 全局对象中，就有了一个 路由的构造函数，叫做 VueRouter
+    // 在 new 路由对象的时候，可以为 构造函数，传递一个配置对象
+    var routerObj = new VueRouter({
+        routes: [ // 路由匹配规则
+            { path: '/login/:id/:name', component: login },
+            {path: '/register', component: register}
+        ]
+    })
+
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',
+        // 将路由规则对象，注册到 vm 实例上，用来监听 URL 地址的变化，然后展示对应的组件
+        router: routerObj
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由-使用命名视图实现经典布局</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+    <!--2. 导入路由vue-router.js包-->
+    <script src="../libs/vue-router.js"></script>
+
+    <!--定义样式-->
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: orange;
+            height: 80px;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .container {
+            display: flex;
+            height: 600px;
+        }
+
+        .left {
+            background-color: lightgreen;
+            flex: 2;
+        }
+
+        .main {
+            background-color: lightpink;
+            flex: 8;
+        }
+    </style>
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <router-view></router-view>
+    <div class="container">
+        <!--通过name属性为router-view指定名称-->
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+</div>
+
+<script>
+    // 三个组件模板
+    var header = Vue.component('header', {
+        template: '<div class="header">header</div>'
+    });
+
+    var sidebar = Vue.component('left', {
+        template: '<div class="left">leftBox</div>'
+    });
+
+    var mainbox = Vue.component('main', {
+        template: '<div class="main">mainBox</div>'
+    });
+
+    // 创建路由对象
+    var router = new VueRouter({
+        routes: [
+            {
+                // 路由配置
+                path: '/', components: {
+                    default: header,
+                    // left,main与HTML中命名一致
+                    left: sidebar,
+                    main: mainbox
+                }
+            }
+        ]
+    });
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router:router
+    });
+</script>
+
+</body>
+</html>
