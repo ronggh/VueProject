@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用render函数渲染组件</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <!--运行后，整个div区域会被替换掉，不会显示出88888-->
+    <p>88888</p>
+</div>
+
+<script>
+    var login = {
+        template: '<h1>这是登录组件</h1>'
+    }
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        // createElements 是一个 方法，调用它，能够把 指定的 组件模板，渲染为 html 结构
+        render: function (createElements) {
+            // 注意：这里 return 的结果，会 替换页面中 el 指定的那个 容器
+            return createElements(login)
+        }
+    });
+</script>
+
+</body>
+</html>

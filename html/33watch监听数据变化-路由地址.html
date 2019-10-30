@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>watch监听数据变化-路由地址</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+    <!--2. 导入路由vue-router.js包-->
+    <script src="../libs/vue-router.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+
+    <!-- 容器 -->
+    <router-view></router-view>
+</div>
+
+<script>
+    // 创建子组件
+    var login = {
+        template: '<h3>这是登录子组件</h3>'
+    }
+
+    var register = {
+        template: '<h3>这是注册子组件</h3>'
+    }
+
+    // 创建一个路由对象
+    var router = new VueRouter({
+        routes: [ // 路由规则数组
+            {path: '/', redirect: '/login'},
+            {path: '/login', component: login},
+            {path: '/register', component: register}
+        ]
+    })
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+
+        router: router,
+        watch: {
+            //  this.$route.path
+            '$route.path': function (newVal, oldVal) {
+                // console.log(newVal + ' --- ' + oldVal)
+                if (newVal === '/login') {
+                    console.log('欢迎进入登录页面')
+                } else if (newVal === '/register') {
+                    console.log('欢迎进入注册页面')
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

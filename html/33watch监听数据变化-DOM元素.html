@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>watch监听数据变化-DOM元素</title>
+    <!- 1. 导入VUE.JS包-->
+    <script src="../libs/vue-dev.js"></script>
+
+</head>
+<body>
+<!-- 将来VUE的实例会控制这个元素中的内容-->
+<div id="app">
+    <input type="text" v-model="firstname"> +
+    <input type="text" v-model="lastname"> =
+    <input type="text" v-model="fullname">
+</div>
+
+<script>
+    // 2. 创建一个VUE的实例
+    // 导入Vue包后，浏览器的内存中有多了一个Vue的构造函数
+    var vm = new Vue({
+        el: '#app',// 表示要控制页面的哪个区域,注意不能给body加个id来获取，一般是指定div
+        data: {
+            firstname: '',
+            lastname: '',
+            fullname: ''
+        },
+        // watch: 可以监视 data 中指定数据的变化，然后触发这个 watch 中对应的 function 处理函数
+        watch: {
+            // 处理函数有两个参数，第一个是新值，第二个是旧值
+            'firstname': function (newVal, oldVal) {
+
+                // console.log(newVal + ' --- ' + oldVal)
+
+                this.fullname = newVal + '-' + this.lastname
+            },
+            'lastname': function (newVal) {
+                this.fullname = this.firstname + '-' + newVal
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
